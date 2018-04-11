@@ -1,3 +1,39 @@
+/****** Object:  UserDefinedTableType [Debug].[Params]    Script Date: 04/11/2018 16:43:27 ******/
+CREATE TYPE [Debug].[Params] AS TABLE(
+	[Index] [tinyint] NOT NULL,
+	[Name] [sysname] NOT NULL,
+	[Value] [nvarchar](max) NULL,
+	PRIMARY KEY CLUSTERED 
+(
+	[Index] ASC
+)WITH (IGNORE_DUP_KEY = OFF)
+)
+GO
+
+/****** Object:  Sequence [Debug].[Execution:Id]    Script Date: 11.04.2018 16:49:41 ******/
+CREATE SEQUENCE [Debug].[Execution:Id] 
+ AS [bigint]
+ START WITH 10000000
+ INCREMENT BY 1
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
+
+
+CREATE EVENT SESSION [DebugLog] ON SERVER 
+ADD EVENT sqlserver.user_event(
+    ACTION(sqlserver.database_id,sqlserver.session_id,sqlserver.session_server_principal_name,sqlserver.username)
+    WHERE ([event_id]=(83)))
+ADD TARGET package0.event_file(SET filename=N'D:\MSSQL\DEBUG-MA\debug-log.xel',max_file_size=(16),max_rollover_files=(1024))
+WITH (MAX_MEMORY=8192 KB,EVENT_RETENTION_MODE=NO_EVENT_LOSS,MAX_DISPATCH_LATENCY=1 SECONDS,MAX_EVENT_SIZE=0 KB,MEMORY_PARTITION_MODE=NONE,TRACK_CAUSALITY=OFF,STARTUP_STATE=ON)
+GO
+
+
+
+
+-------------------------
+
 
 GO
 
@@ -431,17 +467,12 @@ ALTER TABLE [Debug].[XE:Files:Info] ADD  DEFAULT ((0)) FOR [Deleted]
 GO
 
 
-GO
+INSERT INTO [Debug].[Execution:Stmt->Kinds]([Kind], [Name])
+VALUES
+  ('E', 'Error')
+  ,  ('F', 'Finish')
+  ,  ('P', 'Point')
+  ,  ('S', 'Start')
+  ,  ('p', 'SubPoint')
 
-/****** Object:  UserDefinedTableType [Debug].[Params]    Script Date: 04/11/2018 16:43:27 ******/
-CREATE TYPE [Debug].[Params] AS TABLE(
-	[Index] [tinyint] NOT NULL,
-	[Name] [sysname] NOT NULL,
-	[Value] [nvarchar](max) NULL,
-	PRIMARY KEY CLUSTERED 
-(
-	[Index] ASC
-)WITH (IGNORE_DUP_KEY = OFF)
-)
 GO
-
