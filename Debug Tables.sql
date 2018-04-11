@@ -21,13 +21,16 @@ CREATE SEQUENCE [Debug].[Execution:Id]
 GO
 
 
-CREATE EVENT SESSION [DebugLog] ON SERVER 
-ADD EVENT sqlserver.user_event(
+CREATE EVENT SESSION [DebugLog] ON SERVER ADD EVENT sqlserver.user_event
+(
     ACTION(sqlserver.database_id,sqlserver.session_id,sqlserver.session_server_principal_name,sqlserver.username)
-    WHERE ([event_id]=(83)))
-ADD TARGET package0.event_file(SET filename=N'D:\MSSQL\DEBUG-MA\debug-log.xel',max_file_size=(16),max_rollover_files=(1024))
+    WHERE ([event_id]=(82))
+)
+ADD TARGET package0.event_file(SET filename=N'D:\MSSQL\DEBUG\debug-log.xel',max_file_size=(128),max_rollover_files=(256))
 WITH (MAX_MEMORY=8192 KB,EVENT_RETENTION_MODE=NO_EVENT_LOSS,MAX_DISPATCH_LATENCY=1 SECONDS,MAX_EVENT_SIZE=0 KB,MEMORY_PARTITION_MODE=NONE,TRACK_CAUSALITY=OFF,STARTUP_STATE=ON)
 GO
+
+
 
 
 
