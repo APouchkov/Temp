@@ -2902,3 +2902,21 @@ AS
 GO
 
 
+/****** Object:  UserDefinedFunction [Debug].[Date@ToString]    Script Date: 04/11/2018 16:38:02 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE FUNCTION [Debug].[Date@ToString](@DateTime Date)
+    RETURNS VarChar(50)
+    WITH
+        RETURNS NULL ON NULL INPUT
+AS
+BEGIN
+    RETURN Convert(VarChar(50), @DateTime, 121) -- + ' ' + Convert(VarChar(50), @DateTime, 114)
+END
+
+GO
+
