@@ -431,3 +431,17 @@ ALTER TABLE [Debug].[XE:Files:Info] ADD  DEFAULT ((0)) FOR [Deleted]
 GO
 
 
+GO
+
+/****** Object:  UserDefinedTableType [Debug].[Params]    Script Date: 04/11/2018 16:43:27 ******/
+CREATE TYPE [Debug].[Params] AS TABLE(
+	[Index] [tinyint] NOT NULL,
+	[Name] [sysname] NOT NULL,
+	[Value] [nvarchar](max) NULL,
+	PRIMARY KEY CLUSTERED 
+(
+	[Index] ASC
+)WITH (IGNORE_DUP_KEY = OFF)
+)
+GO
+
